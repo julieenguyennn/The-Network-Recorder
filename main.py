@@ -1,16 +1,35 @@
-# This is a sample Python script.
+import datetime
+import csv
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+current_date = datetime.date.today()
 
+# Create contact list
+contact_list = [
+    {
+        'name': '',
+        'birthday': '',
+        'email': '',
+        'date': ''
+    }
+]
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+# Add new contact
+def addContact():
+    name_input = input("Add name: ")
+    birthday_input = input("Add birthday: ")
+    email_input = input("Add email: ")
+    date_input = input("Add date: ")
+    new_contact = {'name': name_input, 'birthday': birthday_input, 'email': email_input, 'date': date_input}
+    contact_list.append(new_contact)
 
+# Export contact history as CSV
+def exportList():
+    file_path = 'contact_list.csv'
+    with open(file_path, 'w', newline='') as csvfile:
+        fieldnames = ['name', 'birthday', 'email', 'date']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(contact_list)
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+addContact()
+exportList()

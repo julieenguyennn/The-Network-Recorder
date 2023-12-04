@@ -30,7 +30,7 @@ def exportList():
         writer = csv.writer(csvfile)
         writer.writerow(["Name", "Birthday", "Email", "Date"])
         for contact in contact_list:
-            writer.writerow(contact.name, contact.birthday, contact.email, contact.date)
+            writer.writerow([contact.name, contact.birthday, contact.email, contact.last_contact])
 
 addContact()
 exportList() 

@@ -22,14 +22,15 @@ def addContact():
     new_contact = {'name': name_input, 'birthday': birthday_input, 'email': email_input, 'date': date_input}
     contact_list.append(new_contact)
 
+
 # Export contact history as CSV
 def exportList():
     file_path = 'contact_list.csv'
     with open(file_path, 'w', newline='') as csvfile:
-        fieldnames = ['name', 'birthday', 'email', 'date']
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-        writer.writeheader()
-        writer.writerows(contact_list)
+        writer = csv.writer(csvfile)
+        writer.writerow(["Name", "Birthday", "Email", "Date"])
+        for contact in contact_list:
+            writer.writerow(contact.name, contact.birthday, contact.email, contact.date)
 
 addContact()
-exportList()
+exportList() 

@@ -1,17 +1,14 @@
 import datetime
 import csv
+from datetime import *
+import Contacts
+
 
 current_date = datetime.date.today()
 
 # Create contact list
-contact_list = [
-    {
-        'name': '',
-        'birthday': '',
-        'email': '',
-        'date': ''
-    }
-]
+contact_list = []
+
 
 # Add new contact
 def addContact():
@@ -19,8 +16,9 @@ def addContact():
     birthday_input = input("Add birthday: ")
     email_input = input("Add email: ")
     date_input = input("Add date: ")
-    new_contact = {'name': name_input, 'birthday': birthday_input, 'email': email_input, 'date': date_input}
-    contact_list.append(new_contact)
+    contact_list.append(
+        Contacts.Contact(name_input, datetime.strptime(birthday_input), email_input, datetime.strptime(date_input)))
+
 
 
 # Export contact history as CSV

@@ -17,3 +17,7 @@ class Contact:
         # Calculate the difference in months
         months_difference = difference.days // 30
         return months_difference
+
+    def contains_partial(self, keyword):
+        # Check if the keyword is present in the name
+        return keyword.lower() in self.name.lower()

@@ -54,11 +54,10 @@ Label(root, text="Birthday:").grid(row=2, column=0, padx=5, pady=5)
 Label(root, text="Category:").grid(row=3, column=0, padx=5, pady=5)
 Label(root, text="Note:").grid(row=4, column=0, padx=5, pady=5)
 Label(root, text="Last met:").grid(row=5, column=0, padx=5, pady=5)  # Add label for Birthday
-birthday_entry = Entry(root)
-birthday_entry.grid(row=5, column=1, padx=5, pady=5)
 
 name_entry = Entry(root)
 email_entry = Entry(root)
+birthday_entry = Entry(root)
 last_met_entry = Entry(root)
 note_entry = Entry(root)
 
@@ -73,19 +72,18 @@ calendar_icon = PhotoImage(file="./GUI graphics/calendar_icons.png")  # Replace 
 # Button to open calendar for date selection with calendar icon
 calendar_button = Button(root, command=open_calendar, image=calendar_icon, compound="left")
 add_button = Button(root, text="Add Contact", command=add_contact)
-calendar_button_last_met = Button(root, command=lambda: open_calendar(last_met_entry), image=calendar_icon,
-                                  compound="left")
-calendar_button_last_met.grid(row=2, column=2, columnspan=5, padx=(0, 2), pady=5, sticky="w")
-
 calendar_button_birthday = Button(root, command=lambda: open_calendar(birthday_entry), image=calendar_icon,
                                   compound="left")
-calendar_button_birthday.grid(row=5, column=2, columnspan=5, padx=(0, 2), pady=5, sticky="w")
+calendar_button_birthday.grid(row=2, column=2, columnspan=5, padx=(0, 2), pady=5, sticky="w")
+calendar_button_last_met = Button(root, command=lambda: open_calendar(last_met_entry), image=calendar_icon,
+                                  compound="left")
+calendar_button_last_met.grid(row=5, column=2, columnspan=5, padx=(0, 2), pady=5, sticky="w")
+
 
 # Arrange the position of grid
 name_entry.grid(row=0, column=1, padx=5, pady=5)
 email_entry.grid(row=1, column=1, padx=5, pady=5)
 birthday_entry.grid(row=2, column=1, padx=5, pady=5)
-calendar_button.grid(row=2, column=2, columnspan=5, padx=(0, 2), pady=5, sticky="w")
 note_entry.grid(row=4, column=1, padx=5, pady=5)
 add_button.grid(row=6, column=0, columnspan=2, padx=5, pady=10)
 last_met_entry.grid(row=5, column=1, padx=5, pady=5)

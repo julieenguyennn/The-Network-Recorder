@@ -20,7 +20,6 @@ def addContact():
         Contacts.Contact(name_input, datetime.strptime(birthday_input), email_input, datetime.strptime(date_input)))
 
 
-
 # Export contact history as CSV
 def exportList():
     file_path = 'contact_list.csv'

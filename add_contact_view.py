@@ -1,5 +1,4 @@
 # Final Project - GUI
-#
 # Course Name: INF 452:Information Design V: Coding
 # Institution: University of Toronto
 # Instructor: Dr. Maher Elshakankiri

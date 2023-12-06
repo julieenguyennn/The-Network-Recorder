@@ -5,8 +5,6 @@ import Contacts
 
 
 def categorize_contacts(contact_list):
-    today = datetime.date.today()
-
     one_year_contacts = []
     six_month_contacts = []
     three_month_contacts = []
@@ -27,7 +25,7 @@ def categorize_contacts(contact_list):
 class Reminder:
     def __init__(self, root):
         self.root = root
-        self.root.title("Contact Notification")
+        self.root.title("Reminder")
 
         self.contact_list = [
             Contacts.Contact("John Doe", datetime.date(1990, 1, 1), "john@example.com",
@@ -43,7 +41,7 @@ class Reminder:
 
     def create_ui(self):
         self.tree = ttk.Treeview(self.root, columns=("Name", "Email", "Last Contact"))
-        self.tree.heading("#0", text="Time since last contact")
+        self.tree.heading("#0", text="Time Since Last Contact")
         self.tree.heading("Name", text="Name")
         self.tree.heading("Email", text="Email")
         self.tree.heading("Last Contact", text="Last Contact")

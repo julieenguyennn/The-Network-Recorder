@@ -11,7 +11,6 @@ class Contact:
         self.last_contact = last_contact
         self.note = note
         self.category = category
-        self.root = Tk()
         
     def last_contact_from_now(self):
         current_date = datetime.date.today()
@@ -20,14 +19,16 @@ class Contact:
         months_difference = difference.days // 30
         return months_difference
 
-    # Add contact
+class addContact:
     def addContact(contact_list):
         name_input = input("Add name: ")
         birthday_input = input("Add birthday: ")
         email_input = input("Add email: ")
         date_input = input("Add date: ")
         contact_list.append(name_input, datetime.strptime(birthday_input), email_input, datetime.strptime(date_input))
+        return contact_list
 
+class exportList:
     # Export contact history as CSV
     def exportList(contact_list):
         file_path = 'contact_list.csv'
@@ -37,8 +38,9 @@ class Contact:
             for contact in contact_list:
                 writer.writerow([contact.name, contact.birthday, contact.email, contact.last_contact])
 
+class displayContact:
     # Display contact
-    def displayContact(self, total_rows, total_columns, contact_list):
+    def displayContact(self, root, contact_list):
         for i in range(total_rows):
             for j in range(total_columns):
                 self.e = Entry(root, width=20, fg='blue',
@@ -49,9 +51,9 @@ class Contact:
   
         total_rows = len(contact_list)
         total_columns = len(contact_list[0])
-        
-        # create root window
-        root = Tk()
-        t = Table(root)
-        root.mainloop()
 
+# create root window
+root = Tk()
+Contact.addContact(contact_list)
+t = displayContact.displayContact(root, contact_list)
+root.mainloop()

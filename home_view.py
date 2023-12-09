@@ -1,43 +1,61 @@
 import tkinter as tk
 from tkinter import ttk
-from reminder_view import Reminder  # Import the Reminder class from reminder_view module
-# from add_contact_view import AddContact  # Import the AddContact class from add_contact_view module
+from reminder_view import Reminder
 import datetime
-import Contacts
+from add_contact_view import *
+from Contacts import *
 
-def open_add_contact():
-    add_contact_window = tk.Toplevel(root)
-    # add_contact_app = AddContact(add_contact_window)
+class home:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Home")
 
-def open_reminder():
-    reminder_window = tk.Toplevel(root)
-    reminder_app = Reminder(reminder_window)
+        self.contact_manager = contactManager()  # Instantiate contact manager
 
-def search():
-    # Add code for searching here
-    query = search_entry.get()
-    print(f"Searching for: {query}")
+        # Create and place the search bar
+        self.search_label = tk.Label(self.root, text="Search:")
+        self.search_label.grid(row=0, column=0, padx=10, pady=10, sticky=tk.W)
 
-# Create the main window
-root = tk.Tk()
-root.title("Home")
+        self.search_entry = ttk.Entry(self.root, width=30)
+        self.search_entry.grid(row=0, column=1, padx=10, pady=10, sticky=tk.W)
 
-# Create and place the search bar
-search_label = tk.Label(root, text="Search:")
-search_label.grid(row=0, column=0, padx=10, pady=10, sticky=tk.W)
+        self.search_button = ttk.Button(self.root, text="Search", command=self.search)
+        self.search_button.grid(row=0, column=2, padx=10, pady=10, sticky=tk.W)
 
-search_entry = ttk.Entry(root, width=30)
-search_entry.grid(row=0, column=1, padx=10, pady=10, sticky=tk.W)
+        # Create and place the buttons for Add Contact, Import Contacts, and Display Contacts
+        self.add_contact_button = ttk.Button(self.root, text="Add Contact", command=self.open_add_contact)
+        self.add_contact_button.grid(row=1, column=0, padx=10, pady=10, sticky=tk.W)
 
-search_button = ttk.Button(root, text="Search", command=search)
-search_button.grid(row=0, column=2, padx=10, pady=10, sticky=tk.W)
+        self.import_contacts_button = ttk.Button(self.root, text="Import Contacts", command=self.import_contacts)
+        self.import_contacts_button.grid(row=1, column=1, padx=10, pady=10, sticky=tk.W)
 
-# Create and place the buttons for Add Contact and Reminder
-add_contact_button = ttk.Button(root, text="Add Contact", command=open_add_contact)
-add_contact_button.grid(row=1, column=0, padx=10, pady=10, sticky=tk.W)
+        self.display_contacts_button = ttk.Button(self.root, text="Display Contacts", command=self.display_contacts)
+        self.display_contacts_button.grid(row=1, column=2, padx=10, pady=10, sticky=tk.W)
 
-reminder_button = ttk.Button(root, text="Reminder", command=open_reminder)
-reminder_button.grid(row=1, column=1, padx=10, pady=10, sticky=tk.W)
+    def open_add_contact(self):
+        add_contact_window = tk.Toplevel(self.root)
+        add_contact_app = addContact(add_contact_window)
+        add_contact_app.displayWindow()
 
-# Start the main event loop
-root.mainloop()
+    def import_contacts(self):
+        self.contact_manager.import_contacts()  # Call contactManager's import_contacts method
+
+    def display_contacts(self):
+        self.contact_manager.display_contacts_gui()  # Call contactManager's display_contacts_gui method
+
+    def search(self):
+        # Add code for searching here
+        query = self.search_entry.get()
+        print(f"Searching for: {query}")
+
+    def open_reminder():
+        reminder_window = tk.Toplevel(root)
+        Reminder(reminder_window)
+
+def main():
+    root = tk.Tk()
+    app = home(root)
+    root.mainloop()
+
+if __name__ == "__main__":
+    main()

@@ -7,41 +7,43 @@
 # Last Modified:
 
 from tkinter import *
-from tkinter import messagebox
-from tkcalendar import Calendar
-from tkinter import ttk  # Import ttk module for Combobox
-from Contacts import Contact
+from tkinter.ttk import *
+from tkinter import ttk, messagebox
 from datetime import datetime
+from tkcalendar import *
+from Contacts import Contact
 
-class addContact:
-    def __init__(self, root, name_entry, email_entry, last_met_entry, birthday_entry, category_combobox, note_entry):
+class addContact(Toplevel):
+    def __init__(self, root=None, tv=None):
+        super().__init__(root)
         self.root = root
-        self.root.title("New contact")
+        self.tv = tv
+        self.title("Add Contact")
+        self.geometry("400x500")
 
-        Label(root, text="Name:").grid(row=0, column=0, padx=5, pady=5)
-        Label(root, text="Email:").grid(row=1, column=0, padx=5, pady=5)
-        Label(root, text="Birthday:").grid(row=2, column=0, padx=5, pady=5)
-        Label(root, text="Category:").grid(row=3, column=0, padx=5, pady=5)
-        Label(root, text="Note:").grid(row=4, column=0, padx=5, pady=5)
-        Label(root, text="Last met:").grid(row=5, column=0, padx=5, pady=5)  # Add label for Birthday
+        Label(self, text="Name:").grid(row=0, column=0, padx=5, pady=5)
+        Label(self, text="Email:").grid(row=1, column=0, padx=5, pady=5)
+        Label(self, text="Birthday:").grid(row=2, column=0, padx=5, pady=5)
+        Label(self, text="Category:").grid(row=3, column=0, padx=5, pady=5)
+        Label(self, text="Note:").grid(row=4, column=0, padx=5, pady=5)
+        Label(self, text="Last met:").grid(row=5, column=0, padx=5, pady=5)
 
-        self.name_entry = Entry(root)
-        self.email_entry = Entry(root)
-        self.last_met_entry = Entry(root)
-        self.birthday_entry = Entry(root)
-        self.category_combobox = Entry(root)
-        self.note_entry = Entry(root)
+        self.name_entry = Entry(self)
+        self.email_entry = Entry(self)
+        self.birthday_entry = Entry(self)
+        self.note_entry = Entry(self)
+        self.last_met_entry = Entry(self)
+        self.category_combobox = ttk.Combobox(self, values=["Work", "Personal", "Family", "Friends"])
 
-        self.category_combobox = ttk.Combobox(root, values=["Work", "Personal", "Family", "Friends"])
         self.category_combobox.grid(row=3, column=1, padx=5, pady=5)
 
         calendar_icon = PhotoImage(file="./GUI graphics/calendar_icons.png")
 
-        calendar_button_birthday = Button(root, command=self.open_calendar_birthday, image=calendar_icon, compound="left")
-        calendar_button_birthday.grid(row=2, column=2, columnspan=5, padx=(0, 2), pady=5, sticky="w")
+        calendar_button_birthday = Button(self, command=self.open_calendar_birthday, image=calendar_icon, compound="left")
+        calendar_button_birthday.grid(row=2, column=2, padx=(0, 2), pady=5, sticky="w")
 
-        calendar_button_last_met = Button(root, command=self.open_calendar_last_met, image=calendar_icon, compound="left")
-        calendar_button_last_met.grid(row=5, column=2, columnspan=5, padx=(0, 2), pady=5, sticky="w")
+        calendar_button_last_met = Button(self, command=self.open_calendar_last_met, image=calendar_icon, compound="left")
+        calendar_button_last_met.grid(row=5, column=2, padx=(0, 2), pady=5, sticky="w")
 
         self.name_entry.grid(row=0, column=1, padx=5, pady=5)
         self.email_entry.grid(row=1, column=1, padx=5, pady=5)
@@ -51,7 +53,7 @@ class addContact:
 
         self.contacts = []
 
-        add_button = Button(root, text="Add Contact", command=self.add_contact)
+        add_button = Button(self, text="Add Contact", command=self.add_contact)
         add_button.grid(row=6, column=0, columnspan=2, padx=5, pady=10)
 
     def add_contact(self):
@@ -65,12 +67,12 @@ class addContact:
         contact_info = f"Name: {name}\nEmail: {email}\nLast Met: {last_met}\nBirthday: {birthday}\nCategory: {category}\nNote: {note}"
         messagebox.showinfo("Confirm your entry", contact_info)
 
+        # Assuming the Contact class is defined in "Contacts.py"
         contact = Contact(name, datetime.strptime(birthday, "%m-%d-%Y"), email, datetime.strptime(last_met, "%m-%d-%Y"), note, category)
-
-        self.contacts.append(contact)
+        self.update_treeview(contact)
 
     def open_calendar_birthday(self):
-        top = Toplevel(self.root)
+        top = Toplevel(self)
         cal = Calendar(top, selectmode='day', date_pattern='mm-dd-yyyy', foreground='black')
         cal.pack(padx=10, pady=10)
 
@@ -83,7 +85,7 @@ class addContact:
         Button(top, text="Select Date", command=get_selected_date).pack(pady=5)
 
     def open_calendar_last_met(self):
-        top = Toplevel(self.root)
+        top = Toplevel(self)
         cal = Calendar(top, selectmode='day', date_pattern='mm-dd-yyyy', foreground='black')
         cal.pack(padx=10, pady=10)
 
@@ -94,6 +96,10 @@ class addContact:
             top.destroy()
 
         Button(top, text="Select Date", command=get_selected_date).pack(pady=5)
+
+    def update_treeview(self, contact):
+        self.tv.insert('', 'end', values=(contact.name, contact.birthday.strftime("%m-%d-%Y"), contact.email, contact.last_met.strftime("%m-%d-%Y"), contact.note, contact.category))
+
 
 if __name__ == "__main__":
     root = Tk()

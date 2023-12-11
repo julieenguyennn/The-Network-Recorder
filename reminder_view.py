@@ -1,5 +1,5 @@
-import tkinter as tk
-from tkinter import ttk
+from tkinter import *
+from tkinter.ttk import *
 import datetime
 import Contacts
 
@@ -23,11 +23,13 @@ def categorize_contacts(contact_list):
     return one_year_contacts, six_month_contacts, three_month_contacts
 
 
-class Reminder:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Contact Notification")
+class Reminder(Toplevel):
+    def __init__(self, root=None):
+        super().__init__(root)
+        self.title("Reminder")
+        self.geometry("400x500")
 
+        # Example
         self.contact_list = [
             Contacts.Contact("John Doe", datetime.date(1990, 1, 1), "john@example.com",
                              datetime.date(2022, 1, 1), "", ""),
@@ -41,7 +43,7 @@ class Reminder:
         self.create_ui()
 
     def create_ui(self):
-        self.tree = ttk.Treeview(self.root, columns=("Name", "Email", "Last Contact"))
+        self.tree = Treeview(columns=("Name", "Email", "Last Contact"))
         self.tree.heading("#0", text="Time since last contact")
         self.tree.heading("Name", text="Name")
         self.tree.heading("Email", text="Email")
@@ -53,18 +55,17 @@ class Reminder:
         self.populate_tree("6 Months", six_month_contacts)
         self.populate_tree("3 Months", three_month_contacts)
 
-        self.tree.pack(expand=True, fill=tk.BOTH)
+        self.tree.pack(expand=True, fill=BOTH)
 
     def populate_tree(self, category, contacts):
         category_item = self.tree.insert("", "end", text=category)
 
         for contact in contacts:
-            self.tree.insert(category_item, "end", values=(contact.name, contact.email, contact.last_contact))
+            self.tree.insert(category_item, "end", values=(contact.name, contact.email, contact.last_met))
 
         self.tree.item(category_item, open=True)
 
-
 if __name__ == "__main__":
-    root = tk.Tk()
+    root = Tk()
     app = Reminder(root)
     root.mainloop()

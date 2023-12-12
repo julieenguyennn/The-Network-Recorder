@@ -2,10 +2,10 @@ from tkinter import *
 from tkinter.ttk import *
 import datetime
 import Contacts
+import Data_manager
+
 
 def categorize_contacts(contact_list):
-    today = datetime.date.today()
-
     one_year_contacts = []
     six_month_contacts = []
     three_month_contacts = []
@@ -26,20 +26,8 @@ def categorize_contacts(contact_list):
 class Reminder(Toplevel):
     def __init__(self, root=None):
         super().__init__(root)
-        self.title("Reminder")
-        self.geometry("400x500")
-
         # Example
-        self.contact_list = [
-            Contacts.Contact("John Doe", datetime.date(1990, 1, 1), "john@example.com",
-                             datetime.date(2022, 1, 1), "", ""),
-            Contacts.Contact("Jane Smith", datetime.date(1985, 5, 15), "jane@example.com",
-                             datetime.date(2022, 5, 1), "", ""),
-            Contacts.Contact("Bob Johnson", datetime.date(1995, 8, 10), "bob@example.com",
-                             datetime.date(2023, 2, 1), "", ""),
-            # Add more contacts as needed
-        ] # TODO: Hard-coded example for now. Should get it from read the csv file
-
+        self.contact_list = Data_manager.load_contacts_from_csv()
         self.create_ui()
 
     def create_ui(self):
@@ -48,6 +36,7 @@ class Reminder(Toplevel):
         self.tree.heading("Name", text="Name")
         self.tree.heading("Email", text="Email")
         self.tree.heading("Last Contact", text="Last Contact")
+        print(self.contact_list)
 
         one_year_contacts, six_month_contacts, three_month_contacts = categorize_contacts(self.contact_list)
 

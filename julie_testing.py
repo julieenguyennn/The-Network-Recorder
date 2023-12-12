@@ -1,38 +1,56 @@
 from tkinter import *
 from tkinter import ttk
-from Contacts import *
+import Contacts
 from add_contact_view import *
 from reminder_view import Reminder
 from import_contact import importContact
 import os
+import Data_manager
+from Contacts import Contact
 
-def save_contacts():
-    contact_manager.save_contacts_to_csv()
+# def save_contacts():
+#     Contacts.save_contacts_to_csv()
+
 
 def load_contacts():
     if not os.path.exists('contacts.csv'):
         open('contacts.csv', 'a').close()
-    contact_manager.load_contacts_from_csv()
+    Data_manager.load_contacts_from_csv()
+
 
 def import_contacts_from_file():
     import_manager = importContact()
     import_manager.import_contacts()
 
-def searchName():
-    search_input = Contact(item.get())
-    name = search_input.name()
-    birthday = search_input.birthday()
-    email = search_input.email()
-    last_met = search_input.last_met()
-    note = search_input.note()
-    category = search_input.category()
-    tv.insert('','end', values=(name, birthday, email, last_met, note, category))
+
+def update_treeview():
+    tv.delete(*tv.get_children())
+    for contact in contact_list:
+        tv.insert('', 'end', values=(contact.name, contact.birthday, contact.email, contact.last_met, contact.note, contact.category))
+
+
+def search_by_name():
+    contact_list = Data_manager.load_contacts_from_csv()
+    keyword = item.get()
+    results = []
+    for contact in contact_list:
+        if contact.contains_partial(keyword):
+            results.append(contact)
+
+    tv.delete(*tv.get_children())
+
+    # Insert search results into the Treeview
+    for result in results:
+        tv.insert('', 'end',
+                  values=(result.name, result.birthday, result.email, result.last_met, result.note, result.category))
 
 root = Tk()
-contact_manager = contactManager()
+# contact_manager = contactManager()
 item = StringVar()
 
 load_contacts()
+
+contact_list = Data_manager.load_contacts_from_csv()
 
 # Menu bar
 menu = LabelFrame(root, text="Menu Bar")
@@ -41,7 +59,7 @@ menu.pack(padx=20, pady=20)
 search_box = Entry(menu, textvariable=item)
 search_box.pack(side=LEFT, padx=20)
 
-search_button = Button(menu, text="Search", command=searchName)
+search_button = Button(menu, text="Search", command=search_by_name)
 search_button.pack(side=LEFT, padx=20)
 
 add_contact_button = Button(menu, text="Add Contact")
@@ -75,6 +93,8 @@ tv.column(3, width=100)
 tv.column(4, width=100)
 tv.column(5, width=100)
 tv.column(6, width=100)
+
+update_treeview()
 
 root.title("Network Recorder")
 root.geometry("1000x800")

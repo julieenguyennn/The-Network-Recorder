@@ -4,7 +4,7 @@
 The Network Recorder is a program that allows user to note down the information of whom they have recently met. It helps user store information such as name, birthday, email, and even the day that they have met. The program aims at increasing the user's productivity compared to manual and physical note. Users can add new contact whenever they need to, import the list they currently have and view reminder of whom they haven't talked to.
 
 ## File structure
-There are four files in this folder:
+There are eight files in this folder:
 
 * `main.py` is the main file for executing the program
 * `Contacts.py` stores the contact object and its atrributes
@@ -13,6 +13,7 @@ There are four files in this folder:
 * `import_contact.py` stores the code for the "Import CSV file" window when it is executed
 * `Data_manager.py` saves the contact object when user adds a new contact and loads the information from `contacts.csv` when user reopens the program
 * `contacts.csv` is the mediate file used to save added information
+* `GUI graphics` is a folder containing icons for GUI
 
 ## Execution instructions
 In order to run this program smoothly, please be advised that Python and other packages are installed. You can download Python from the official website if it's not already installed: https://www.python.org/downloads/. Other packages including `tkinter`, `csv`, `datetime`, and `SpeechRecognition` can be installed by entering `pip install [package name]` in the terminal.

@@ -3,6 +3,7 @@ from tkinter import filedialog, messagebox
 import Data_manager
 from Contacts import *
 
+
 class importContact:
     def __init__(self):
         self.headers = ['Name', 'Birthday', 'Email', 'Last Met', 'Note', 'Category']  

@@ -26,6 +26,8 @@ class Contact:
         return months_difference
 
     def contains_partial(self, keyword):
+        # checks if a lowercase version of the provided keyword is a substring of the lowercase version of the
+        # object's name for the search function
         return keyword.lower() in self.name.lower()
     
     @classmethod

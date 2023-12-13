@@ -29,16 +29,24 @@ class Home:
         left_menu = Frame(self.menu)
         left_menu.pack(side=LEFT)
 
+        # Load the speech icon image and resize it
+        speech_icon = PhotoImage(file="GUI graphics/speech_icon.png")  # Ensure the correct file path
+        resized_speech_icon = speech_icon.subsample(26, 26)
+
+        # Create a button with the speech icon
+        speech_button = Button(left_menu, image=resized_speech_icon, command=self.start_speech_recognition)
+        speech_button.grid(row=0, column=0, padx=5, pady=5)
+
         # Load the search icon image and resize it
         search_icon = PhotoImage(file="GUI graphics/search_icon.png")
         resized_search_icon = search_icon.subsample(30, 30)
 
         # Create a button with the search icon
         search_button = Button(left_menu, text="Search", image=resized_search_icon, compound="left", command=self.search_by_name)
-        search_button.grid(row=0, column=1, padx=5, pady=5)
+        search_button.grid(row=0, column=2, padx=5, pady=5)
 
         self.search_box = Entry(left_menu, textvariable=self.item)
-        self.search_box.grid(row=0, column=0, padx=5, pady=5)
+        self.search_box.grid(row=0, column=1, padx=5, pady=5)
 
         # Right side of the menu bar
         right_menu = Frame(self.menu)
@@ -145,6 +153,23 @@ class Home:
         # Insert search results into the Treeview
         for result in results:
             self.tv.insert('', 'end', values=(result.name, result.birthday, result.email, result.last_met, result.note, result.category))
+
+    # Upload speech icon
+    def start_speech_recognition(self):
+        recognizer = sr.Recognizer()
+
+        with sr.Microphone() as source:
+            print("Listening...")
+            audio_data = recognizer.listen(source)
+
+        try:
+            recognized_text = recognizer.recognize_google(audio_data)
+            self.item.set(recognized_text)  # Set recognized text to the search box
+            self.search_by_name()  # Trigger the search
+        except sr.UnknownValueError:
+            print("Speech Recognition could not understand the audio")
+        except sr.RequestError as e:
+            print(f"Could not request results; {e}")
 
 root = Tk()
 app = Home(root)

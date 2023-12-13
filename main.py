@@ -1,3 +1,15 @@
+# Faculty of Information
+# University of Toronto
+# BI program
+# Course: INF452
+# Instructor: Dr. Maher Elshakankiri
+# Name: Rae Zhang, Julie Nguyen, Linrong Li
+# Assignment: Final Project
+# Date Create: December 1, 2023
+# Last Modified: December 13, 2023
+# Description: Main program file
+
+# Set up and install packages
 from tkinter import *
 from tkinter import ttk
 import os
@@ -8,23 +20,24 @@ from import_contact import importContact
 from Contacts import *
 import speech_recognition as sr
 
+# Open reminder window
 def open_reminder():
     if not hasattr(root, 'reminder_window') or not root.Reminder:
         root.Reminder = Reminder(root)
     else:
         root.Reminder.focus()
 
-
+# Open add contact window
 def open_add_contact_window():
     add_contact_window = Toplevel(root)
     add_contact_window.title("Add Contact")
     AddContact(add_contact_window, tv)
 
-
+# Import contact from CSV
 def import_contacts_from_file():
     import_manager.import_contacts(update_treeview)
 
-
+# Update table display
 def update_treeview():
     contact_list = Data_manager.load_contacts_from_csv()
     tv.delete(*tv.get_children())
@@ -32,7 +45,7 @@ def update_treeview():
         tv.insert('', 'end', values=(
         contact.name, contact.birthday, contact.email, contact.last_met, contact.note, contact.category))
 
-
+# Search function
 def search_by_name():
     contact_list = Data_manager.load_contacts_from_csv()
     keyword = item.get()
@@ -47,7 +60,7 @@ def search_by_name():
         tv.insert('', 'end',
                   values=(result.name, result.birthday, result.email, result.last_met, result.note, result.category))
 
-
+# Speech recognition function
 def start_speech_recognition():
     recognizer = sr.Recognizer()
 

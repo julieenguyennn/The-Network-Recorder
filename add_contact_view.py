@@ -1,3 +1,14 @@
+# Faculty of Information
+# University of Toronto
+# BI program
+# Course: INF452
+# Instructor: Dr. Maher Elshakankiri
+# Name: Rae Zhang, Julie Nguyen, Linrong Li
+# Assignment: Final Project
+# Date Create: December 1, 2023
+# Last Modified: December 13, 2023
+# Description: Store contact information 
+
 # Set up and import packages
 from tkinter import *
 from tkinter import messagebox

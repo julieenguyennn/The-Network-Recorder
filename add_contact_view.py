@@ -87,11 +87,12 @@ class AddContact:
         contact_info = f"Name: {name}\nEmail: {email}\nLast Met: {last_met}\nBirthday: {birthday}\nCategory: {category}\nNote: {note}"
         messagebox.showinfo("Confirm your entry", contact_info)
 
-        # Assuming the Contact class is defined in "Contacts.py"
         contact = contacts.Contact(name, datetime.strptime(birthday, "%m-%d-%Y"), email, datetime.strptime(last_met, "%m-%d-%Y"), note, category)
         self.contacts.append(contact)
         data_manager.save_contacts_to_csv(self.contacts)
         self.update_treeview(contact)
+
+        self.root.destroy()
 
     def open_calendar_birthday(self):
         top = Toplevel(self)
@@ -131,6 +132,10 @@ class AddContact:
             top.destroy()
 
         Button(top, text="Select Date", command=get_selected_date).pack(pady=5)
+    
+    def update_treeview(self, contact):
+        self.tv.insert('','end',values=(contact.name, contact.birthday, contact.email, contact.last_met, contact.note, contact.category))
+
 
 if __name__ == "__main__":
     root = Tk()

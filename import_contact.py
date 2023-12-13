@@ -29,9 +29,9 @@ class importContact:
                         reader = csv.DictReader(file)
                         for row in reader:
                             contact = Contact(row['Name'], row['Birthday'], row['Email'], row['Last Met'], row['Note'], row['Category'])
-                        self.contacts.append(contact)
+                            self.contacts.append(contact)
                         messagebox.showinfo(message="Contacts imported successfully.")
-                        data_manager.save_contacts_to_csv(self.contacts)
+                        Data_manager.save_contacts_to_csv(self.contacts)
                         if update_callback:
                             update_callback()  # Call the provided callback to update the Treeview
                 except FileNotFoundError as e:

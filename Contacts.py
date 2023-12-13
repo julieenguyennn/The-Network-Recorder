@@ -40,7 +40,7 @@ class Contact:
                 last_met_str = data_dict.get('Last Met')
 
                 # Check if the date strings are not empty before conversion
-                if birthday_str.strip() and last_met_str.strip():
+                if birthday_str and last_met_str:
                     birthday = datetime.strptime(birthday_str, format)
                     last_met = datetime.strptime(last_met_str, format)
                     break  # Stop trying formats once a successful parse occurs

@@ -166,6 +166,4 @@ root.resizable(False, False)
 menu.pack(side=TOP)
 table_space.pack(side=TOP)
 
-
-
 root.mainloop()

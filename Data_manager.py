@@ -4,16 +4,36 @@ from Contacts import *
 
 
 def save_contacts_to_csv(contact_list, filename='contacts.csv'):
+    existing_contacts = load_contacts_from_csv(filename)  # Load existing contacts from the file
+    all_contacts = existing_contacts + contact_list  # Merge existing contacts with the new ones
+
     with open(filename, mode='w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(["Name", "Birthday", "Email", "Last Met", "Note", "Category"])
-        for contact in contact_list:
-            last_met_formatted = contact.last_met.strftime("%m-%d-%Y") if contact.last_met is not None else ""
+        for contact in all_contacts:
+            if isinstance(contact.birthday, str):
+                try:
+                    # Convert string to datetime object using the appropriate format
+                    contact.birthday = datetime.strptime(contact.birthday, "%m/%d/%Y")
+                except ValueError as e:
+                    print(f"Error converting birthday: {e}")
+                    # Handle the error accordingly; for example, skip this contact
+                    continue
+
+            if isinstance(contact.last_met, str):
+                try:
+                    # Convert string to datetime object using the appropriate format
+                    contact.last_met = datetime.strptime(contact.last_met, "%m/%d/%Y")
+                except ValueError as e:
+                    print(f"Error converting last_met: {e}")
+                    # Handle the error accordingly; for example, skip this contact
+                    continue
+                
             writer.writerow([
                 contact.name,
                 contact.birthday.strftime("%m-%d-%Y") if contact.birthday is not None else "",
                 contact.email,
-                last_met_formatted,  # Handling last_met when it's None
+                contact.last_met.strftime("%m-%d-%Y") if contact.last_met is not None else "",
                 contact.note,
                 contact.category
             ])

@@ -15,6 +15,7 @@ from tkinter import filedialog, messagebox
 import Data_manager
 from Contacts import *
 
+
 # Create class
 class importContact:
     # Initiation

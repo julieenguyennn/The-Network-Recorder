@@ -1,18 +1,25 @@
 from tkinter import *
 from tkinter import ttk
 import os
-import data_manager
+import Data_manager
 from add_contact_view import AddContact
 from reminder_view import Reminder
 from import_contact import importContact
-from contacts import *
+from Contacts import *
+
+
+def open_reminder():
+    if not hasattr(root, 'reminder_window') or not root.reminder_window:
+        root.Reminder = Reminder(root)
+    else:
+        root.Reminder.focus()
 
 class Home:
     def __init__(self, root):
         self.root = root
         self.item = StringVar()
         self.load_contacts()
-        self.contact_list = data_manager.load_contacts_from_csv()
+        self.contact_list = Data_manager.load_contacts_from_csv()
 
         self.menu = LabelFrame(self.root, text="Menu Bar")
         self.menu.pack(padx=20, pady=20)
@@ -46,7 +53,7 @@ class Home:
         # Add reminder icon
         reminder_no_icon = PhotoImage(file="GUI graphics/reminder_no_icon.png")
         resized_reminder_no_icon = reminder_no_icon.subsample(1, 1)  # Adjust the subsample values as needed
-        self.reminder_button = Button(right_menu, image=resized_reminder_no_icon, compound="left")
+        self.reminder_button = Button(right_menu, image=resized_reminder_no_icon, compound="left", command=open_reminder)
         self.reminder_button.grid(row=0, column=3, padx=5, pady=5)
         self.reminder_button.bind("<Button>", lambda e: Reminder(self.root))
 
@@ -104,7 +111,7 @@ class Home:
     def load_contacts(self):
         if not os.path.exists('contacts.csv'):
             open('contacts.csv', 'a').close()
-        data_manager.load_contacts_from_csv()
+        Data_manager.load_contacts_from_csv()
 
     # Create a function to open new window when Add Contact is clicked
     def open_add_contact_window(self):
@@ -119,14 +126,14 @@ class Home:
 
     # Create a function to update the display table
     def update_treeview(self):
-        contact_list = data_manager.load_contacts_from_csv()  # Retrieve contacts from the file
+        contact_list = Data_manager.load_contacts_from_csv()  # Retrieve contacts from the file
         self.tv.delete(*self.tv.get_children())
         for contact in contact_list:
             self.tv.insert('', 'end', values=(contact.name, contact.birthday, contact.email, contact.last_met, contact.note, contact.category))
 
     # Create a function to search
     def search_by_name(self):
-        contact_list = data_manager.load_contacts_from_csv()
+        contact_list = Data_manager.load_contacts_from_csv()
         keyword = self.item.get()
         results = []
         for contact in contact_list:

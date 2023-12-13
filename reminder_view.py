@@ -1,8 +1,9 @@
 from tkinter import *
+from tkinter import ttk
 from tkinter.ttk import *
 import datetime
-import contacts
-import data_manager
+import Contacts
+import Data_manager
 
 
 def categorize_contacts(contact_list):
@@ -26,16 +27,15 @@ def categorize_contacts(contact_list):
 class Reminder(Toplevel):
     def __init__(self, root=None):
         super().__init__(root)
-        self.contact_list = data_manager.load_contacts_from_csv()
+        self.contact_list = Data_manager.load_contacts_from_csv()
         self.create_ui()
 
     def create_ui(self):
-        self.tree = Treeview(columns=("Name", "Email", "Last Contact"))
+        self.tree = ttk.Treeview(self, columns=("Name", "Email", "Last Contact"))
         self.tree.heading("#0", text="Time since last contact")
         self.tree.heading("Name", text="Name")
         self.tree.heading("Email", text="Email")
         self.tree.heading("Last Contact", text="Last Contact")
-        print(self.contact_list)
 
         one_year_contacts, six_month_contacts, three_month_contacts = categorize_contacts(self.contact_list)
 

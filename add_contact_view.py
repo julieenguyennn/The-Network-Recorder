@@ -2,8 +2,8 @@ from tkinter import *
 from tkinter import messagebox
 from tkcalendar import Calendar
 from tkinter import ttk
-import contacts
-import data_manager
+import Contacts
+import Data_manager
 from datetime import datetime
 
 

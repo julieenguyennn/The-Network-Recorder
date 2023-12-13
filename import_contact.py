@@ -1,7 +1,7 @@
 import csv
 from tkinter import filedialog, messagebox
-import data_manager
-from contacts import *
+import Data_manager
+from Contacts import *
 
 class importContact:
     def __init__(self):

@@ -13,7 +13,7 @@ class AddContact:
         self.tv = tv
         self.root.title("New contact")
 
-        self.contacts = data_manager.load_contacts_from_csv()  # Load contacts from CSV
+        self.contacts = Data_manager.load_contacts_from_csv()  # Load contacts from CSV
 
         self.calendar_icon = PhotoImage(file="GUI graphics/calendar_icons.png")
 
@@ -87,9 +87,9 @@ class AddContact:
         contact_info = f"Name: {name}\nEmail: {email}\nLast Met: {last_met}\nBirthday: {birthday}\nCategory: {category}\nNote: {note}"
         messagebox.showinfo("Confirm your entry", contact_info)
 
-        contact = contacts.Contact(name, datetime.strptime(birthday, "%m-%d-%Y"), email, datetime.strptime(last_met, "%m-%d-%Y"), note, category)
+        contact = Contacts.Contact(name, datetime.strptime(birthday, "%m-%d-%Y"), email, datetime.strptime(last_met, "%m-%d-%Y"), note, category)
         self.contacts.append(contact)
-        data_manager.save_contacts_to_csv(self.contacts)
+        Data_manager.save_contacts_to_csv(self.contacts)
         self.update_treeview(contact)
         self.root.destroy()
 

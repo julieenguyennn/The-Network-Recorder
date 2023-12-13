@@ -8,7 +8,6 @@ from import_contact import importContact
 from Contacts import *
 import speech_recognition as sr
 
-
 def open_reminder():
     if not hasattr(root, 'reminder_window') or not root.Reminder:
         root.Reminder = Reminder(root)

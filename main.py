@@ -6,6 +6,7 @@ from add_contact_view import AddContact
 from reminder_view import Reminder
 from import_contact import importContact
 from Contacts import *
+import speech_recognition as sr
 
 
 def open_reminder():

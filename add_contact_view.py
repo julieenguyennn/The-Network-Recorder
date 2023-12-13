@@ -52,12 +52,42 @@ class AddContact:
     def add_contact(self):
         name = self.name_entry.get()
         email = self.email_entry.get()
-        last_met = self.last_met_entry.get()
+        birthday = self.birthday_entry.get()
         category = self.category_combobox.get()
+        last_met = self.last_met_entry.get()
         note = self.note_entry.get("1.0", "end-1c")
 
-        contact_info = f"Name: {name}\nEmail: {email}\nLast Met: {last_met}\nCategory: {category}\nNote: {note}"
-        messagebox.showinfo("Confirm your entry", contact_info)
+        contact_info = f"Name: {name}\nEmail: {email}\nBirthday: {birthday}\nCategory: {category}\nLast Met: {last_met}\nNote: {note}"
+        
+        # Custom contact information popup
+        contact_popup = Toplevel()
+        contact_popup.title("Confirm your entry")
+        contact_popup.geometry("+100+100")  # Position the popup window to the right
+
+        # Create a label to display contact_info
+        contact_label = Label(contact_popup, text=contact_info, justify=LEFT)
+        contact_label.pack(padx=20, pady=20, anchor='w')
+
+
+        # Function to handle confirm button click
+        def confirm_contact():
+            # Add new contact to the contact list (add your logic here)
+            # For example: self.contacts.append(Contact(name, email, birthday, last_met, note, category))
+            messagebox.showinfo("Contact Added", "New contact added successfully!")
+            contact_popup.destroy()
+
+        # Function to handle cancel button click
+        def cancel_adding_contact():
+            contact_popup.destroy()  # Close the popup
+            # Redirect back to the Add Contact UI to edit the entry (add your logic here)
+
+        # Add Confirm and Cancel buttons
+        confirm_button = Button(contact_popup, text="Confirm", command=confirm_contact)
+        confirm_button.pack(side=RIGHT, padx=10, pady=10)
+
+        cancel_button = Button(contact_popup, text="Cancel", command=cancel_adding_contact)
+        cancel_button.pack(side=LEFT, padx=10, pady=10)
+
 
     def open_calendar_last_met(self):
         top = Toplevel(self.root)

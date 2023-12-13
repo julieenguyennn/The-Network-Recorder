@@ -91,7 +91,6 @@ class AddContact:
         self.contacts.append(contact)
         data_manager.save_contacts_to_csv(self.contacts)
         self.update_treeview(contact)
-
         self.root.destroy()
 
     def open_calendar_birthday(self):

@@ -12,14 +12,13 @@ class home:
 
         self.contact_manager = contactManager()  # Instantiate contact manager
 
-        # Create and place the search bar
-        self.search_label = tk.Label(self.root, text="Search:")
-        self.search_label.grid(row=0, column=0, padx=10, pady=10, sticky=tk.W)
+        # Load the search icon image
+        search_icon = Image.open("search_icon.png")
+        search_icon = search_icon.resize((20, 20), Image.ANTIALIAS)  # Resize the image as needed
+        self.search_image = ImageTk.PhotoImage(search_icon)
 
-        self.search_entry = ttk.Entry(self.root, width=30)
-        self.search_entry.grid(row=0, column=1, padx=10, pady=10, sticky=tk.W)
-
-        self.search_button = ttk.Button(self.root, text="Search", command=self.search)
+        # Create and place the search icon button
+        self.search_button = ttk.Button(self.root, image=self.search_image, command=self.search)
         self.search_button.grid(row=0, column=2, padx=10, pady=10, sticky=tk.W)
 
         # Create and place the buttons for Add Contact, Import Contacts, and Display Contacts

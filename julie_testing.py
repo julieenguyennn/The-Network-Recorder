@@ -7,96 +7,127 @@ from reminder_view import Reminder
 from import_contact import importContact
 from Contacts import Contact
 
-# def save_contacts():
-#     Contacts.save_contacts_to_csv()
+class Home:
+    def __init__(self, root):
+        self.root = root
+        self.item = StringVar()
+        self.load_contacts()
+        self.contact_list = Data_manager.load_contacts_from_csv()
+
+        self.menu = LabelFrame(self.root, text="Menu Bar")
+        self.menu.pack(padx=20, pady=20)
+
+        # Left side of the menu bar
+        left_menu = Frame(self.menu)
+        left_menu.pack(side=LEFT)
+
+        # Load the search icon image and resize it
+        search_icon = PhotoImage(file="GUI graphics/search_icon.png")
+        resized_search_icon = search_icon.subsample(30, 30)  # Adjust the subsample values as needed
+
+        # Create a button with the search icon
+        search_button = Button(left_menu, text="Search", image=resized_search_icon, compound="left", command=self.search_by_name)
+        search_button.grid(row=0, column=1, padx=5, pady=5)
+
+        self.search_box = Entry(left_menu, textvariable=self.item)
+        self.search_box.grid(row=0, column=0, padx=5, pady=5)
+
+        # Right side of the menu bar
+        right_menu = Frame(self.menu)
+        right_menu.pack(side=RIGHT)
+
+        # Add contact icon
+        addcontact_icon = PhotoImage(file="GUI graphics/addcontact_icon.png")
+        resized_addcontact_icon = addcontact_icon.subsample(10, 10)
+        self.add_contact_button = Button(right_menu, text=" New Contact", image=resized_addcontact_icon, compound="left") #command=self.search_by_name)
+        self.add_contact_button.grid(row=0, column=1, padx=5, pady=5)
+        self.add_contact_button.bind("<Button>", lambda e: AddContact(self.root, self.tv))
+
+        # Add reminder icon
+        reminder_no_icon = PhotoImage(file="GUI graphics/reminder_no_icon.png")
+        resized_reminder_no_icon = reminder_no_icon.subsample(1, 1)  # Adjust the subsample values as needed
+        self.reminder_button = Button(right_menu, image=resized_reminder_no_icon, compound="left")
+        self.reminder_button.grid(row=0, column=3, padx=5, pady=5)
+        self.reminder_button.bind("<Button>", lambda e: Reminder(self.root))
+
+        def update_reminder_icon(new_reminder):
+            if new_reminder:
+                reminder_yes_icon_path = "GUI graphics/reminder_yes_icon.png"
+                reminder_yes_icon = PhotoImage(file=reminder_yes_icon_path)
+                resized_reminder_yes_icon = reminder_yes_icon.subsample(1, 1)  # Adjust subsample values as needed
+                self.reminder_button.config(image=resized_reminder_yes_icon)
+                self.reminder_button.image = resized_reminder_yes_icon  # Keep reference to avoid garbage collection
+        
+        # Upload csv icon
+        csv_icon = PhotoImage(file="GUI graphics/csv_icon.png")
+        resized_csv_icon = csv_icon.subsample(28, 28)
+        self.import_csv_button = Button(right_menu, text=" Upload CSV List", image=resized_csv_icon,  compound="left", command=self.import_contacts_from_file)
+        self.import_csv_button.grid(row=0, column=2, padx=5, pady=5)
+
+        # Table space
+        table_space = LabelFrame(root, text="Contact list")
+        table_space.pack(padx=20, pady=20)
+
+        tv = ttk.Treeview(table_space, columns=(1, 2, 3, 4, 5, 6, 7), show="headings", height=10)
+        tv.pack(padx=20, pady=20)
+
+        tv.heading(1, text="Name")
+        tv.heading(2, text="Birthday")
+        tv.heading(3, text="Email")
+        tv.heading(4, text="Last Met")
+        tv.heading(5, text="Note")
+        tv.heading(6, text="Category")
+        tv.heading(7, text="   ")
 
 
-def load_contacts():
-    if not os.path.exists('contacts.csv'):
-        open('contacts.csv', 'a').close()
-    Data_manager.load_contacts_from_csv()
+        tv.column(1, width=100)
+        tv.column(2, width=100)
+        tv.column(3, width=100)
+        tv.column(4, width=100)
+        tv.column(5, width=100)
+        tv.column(6, width=100)
+        tv.column(7, width=20)
 
+        # Load data into the table
+        update_treeview()
 
-def import_contacts_from_file():
-    import_manager = importContact()
-    import_manager.import_contacts()
+        root.title("Network Recorder")
+        root.geometry("1000x800")
+        root.resizable(False, False)
 
+        # Positioning elements within the root window
+        menu.pack(side=TOP)
+        table_space.pack(side=TOP)
 
-def update_treeview():
-    contact_list = Data_manager.load_contacts_from_csv()  # Retrieve contacts from the file
-    tv.delete(*tv.get_children())
-    for contact in contact_list:
-        tv.insert('', 'end', values=(contact.name, contact.birthday, contact.email, contact.last_met, contact.note, contact.category))
+    def load_contacts(self):
+        if not os.path.exists('contacts.csv'):
+            open('contacts.csv', 'a').close()
+        Data_manager.load_contacts_from_csv()
 
+    def import_contacts_from_file(self):
+        import_manager = importContact()
+        import_manager.import_contacts()
 
+    def update_treeview(self):
+        contact_list = Data_manager.load_contacts_from_csv()  # Retrieve contacts from the file
+        self.tv.delete(*self.tv.get_children())
+        for contact in contact_list:
+            self.tv.insert('', 'end', values=(contact.name, contact.birthday, contact.email, contact.last_met, contact.note, contact.category))
 
-def search_by_name():
-    contact_list = Data_manager.load_contacts_from_csv()
-    keyword = item.get()
-    results = []
-    for contact in contact_list:
-        if contact.contains_partial(keyword):
-            results.append(contact)
+    def search_by_name(self):
+        contact_list = Data_manager.load_contacts_from_csv()
+        keyword = self.item.get()
+        results = []
+        for contact in contact_list:
+            if contact.contains_partial(keyword):
+                results.append(contact)
 
-        tv.delete(*tv.get_children())
+        self.tv.delete(*self.tv.get_children())
 
         # Insert search results into the Treeview
         for result in results:
-            tv.insert('', 'end', values=(result.name, result.birthday, result.email, result.last_met, result.note, result.category))
+            self.tv.insert('', 'end', values=(result.name, result.birthday, result.email, result.last_met, result.note, result.category))
 
 root = Tk()
-# contact_manager = contactManager()
-item = StringVar()
-
-load_contacts()
-
-contact_list = Data_manager.load_contacts_from_csv()
-
-# Menu bar
-menu = LabelFrame(root, text="Menu Bar")
-menu.pack(padx=20, pady=20)
-
-search_box = Entry(menu, textvariable=item)
-search_box.pack(side=LEFT, padx=20)
-
-search_button = Button(menu, text="Search", command=search_by_name)
-search_button.pack(side=LEFT, padx=20)
-
-add_contact_button = Button(menu, text="Add Contact")
-add_contact_button.pack(side=LEFT, padx=20)
-add_contact_button.bind("<Button>", lambda e: AddContact(root, tv))
-
-reminder_button = Button(menu, text="Reminder")
-reminder_button.pack(side=LEFT, padx=20)
-reminder_button.bind("<Button>", lambda e: Reminder(root))
-
-import_csv_button = Button(menu, text="Import CSV file", command=import_contacts_from_file)
-import_csv_button.pack(side=LEFT, padx=20)
-
-# Table space
-table_space = LabelFrame(root, text="Contact list")
-table_space.pack(padx=20, pady=20)
-
-tv = ttk.Treeview(table_space, columns=(1,2,3,4,5,6), show="headings", height=10)
-tv.pack(padx=20, pady=20)
-
-tv.heading(1, text="Name")
-tv.heading(2, text="Birthday")
-tv.heading(3, text="Email")
-tv.heading(4, text="Last Met")
-tv.heading(5, text="Note")
-tv.heading(6, text="Category")
-
-tv.column(1, width=100)
-tv.column(2, width=100)
-tv.column(3, width=100)
-tv.column(4, width=100)
-tv.column(5, width=100)
-tv.column(6, width=100)
-
-update_treeview()
-
-root.title("Network Recorder")
-root.geometry("1000x800")
-root.resizable(False, False)
+app = Home(root)
 root.mainloop()

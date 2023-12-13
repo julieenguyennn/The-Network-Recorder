@@ -1,7 +1,7 @@
 import csv
 from tkinter import filedialog, messagebox
-import Data_manager
-from Contacts import *
+import data_manager
+from contacts import *
 
 class importContact:
     def __init__(self):
@@ -28,10 +28,10 @@ class importContact:
                     with open(file_name, 'r') as file:
                         reader = csv.DictReader(file)
                         for row in reader:
-                            contact = Contact.from_dict(row)  # Create a Contact object from each row
+                            contact = contact.from_dict(row)  # Create a Contact object from each row
                             self.contacts.append(contact)
                         messagebox.showinfo(message="Contacts imported successfully.")
-                        Data_manager.save_contacts_to_csv(self.contacts)
+                        data_manager.save_contacts_to_csv(self.contacts)
                         if update_callback:
                             update_callback()  # Call the provided callback to update the Treeview
                 except FileNotFoundError:

@@ -1,18 +1,18 @@
 from tkinter import *
 from tkinter import ttk
 import os
-import Data_manager
+import data_manager
 from add_contact_view import AddContact
 from reminder_view import Reminder
 from import_contact import importContact
-from Contacts import Contact
+from contacts import *
 
 class Home:
     def __init__(self, root):
         self.root = root
         self.item = StringVar()
         self.load_contacts()
-        self.contact_list = Data_manager.load_contacts_from_csv()
+        self.contact_list = data_manager.load_contacts_from_csv()
 
         self.menu = LabelFrame(self.root, text="Menu Bar")
         self.menu.pack(padx=20, pady=20)
@@ -68,54 +68,59 @@ class Home:
         table_space = LabelFrame(root, text="Contact list")
         table_space.pack(padx=20, pady=20)
 
-        tv = ttk.Treeview(table_space, columns=(1, 2, 3, 4, 5, 6, 7), show="headings", height=10)
-        tv.pack(padx=20, pady=20)
+        self.tv = ttk.Treeview(table_space, columns=(1, 2, 3, 4, 5, 6, 7), show="headings", height=10)
+        self.tv.pack(padx=20, pady=20)
 
-        tv.heading(1, text="Name")
-        tv.heading(2, text="Birthday")
-        tv.heading(3, text="Email")
-        tv.heading(4, text="Last Met")
-        tv.heading(5, text="Note")
-        tv.heading(6, text="Category")
-        tv.heading(7, text="   ")
+        # Set up table headers
+        self.tv.heading(1, text="Name")
+        self.tv.heading(2, text="Birthday")
+        self.tv.heading(3, text="Email")
+        self.tv.heading(4, text="Last Met")
+        self.tv.heading(5, text="Note")
+        self.tv.heading(6, text="Category")
+        self.tv.heading(7, text="   ")
 
-
-        tv.column(1, width=100)
-        tv.column(2, width=100)
-        tv.column(3, width=100)
-        tv.column(4, width=100)
-        tv.column(5, width=100)
-        tv.column(6, width=100)
-        tv.column(7, width=20)
+        # Set up columns width
+        self.tv.column(1, width=100)
+        self.tv.column(2, width=100)
+        self.tv.column(3, width=100)
+        self.tv.column(4, width=100)
+        self.tv.column(5, width=100)
+        self.tv.column(6, width=100)
+        self.tv.column(7, width=20)
 
         # Load data into the table
-        update_treeview()
+        self.update_treeview()
 
         root.title("Network Recorder")
         root.geometry("1000x800")
         root.resizable(False, False)
 
         # Positioning elements within the root window
-        menu.pack(side=TOP)
+        self.menu.pack(side=TOP)
         table_space.pack(side=TOP)
 
+    # Create a function to load the contact everytime the program is reopened
     def load_contacts(self):
         if not os.path.exists('contacts.csv'):
             open('contacts.csv', 'a').close()
-        Data_manager.load_contacts_from_csv()
+        data_manager.load_contacts_from_csv()
 
+    # Create a function to import contact from CSV file
     def import_contacts_from_file(self):
         import_manager = importContact()
         import_manager.import_contacts()
 
+    # Create a function to update the display table
     def update_treeview(self):
-        contact_list = Data_manager.load_contacts_from_csv()  # Retrieve contacts from the file
+        contact_list = data_manager.load_contacts_from_csv()  # Retrieve contacts from the file
         self.tv.delete(*self.tv.get_children())
         for contact in contact_list:
             self.tv.insert('', 'end', values=(contact.name, contact.birthday, contact.email, contact.last_met, contact.note, contact.category))
 
+    # Create a function to search
     def search_by_name(self):
-        contact_list = Data_manager.load_contacts_from_csv()
+        contact_list = data_manager.load_contacts_from_csv()
         keyword = self.item.get()
         results = []
         for contact in contact_list:

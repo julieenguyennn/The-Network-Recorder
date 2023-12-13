@@ -1,8 +1,8 @@
 from tkinter import *
 from tkinter.ttk import *
 import datetime
-import Contacts
-import Data_manager
+import contacts
+import data_manager
 
 
 def categorize_contacts(contact_list):
@@ -26,8 +26,7 @@ def categorize_contacts(contact_list):
 class Reminder(Toplevel):
     def __init__(self, root=None):
         super().__init__(root)
-        # Example
-        self.contact_list = Data_manager.load_contacts_from_csv()
+        self.contact_list = data_manager.load_contacts_from_csv()
         self.create_ui()
 
     def create_ui(self):

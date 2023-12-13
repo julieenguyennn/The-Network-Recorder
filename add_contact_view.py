@@ -2,16 +2,18 @@ from tkinter import *
 from tkinter import messagebox
 from tkcalendar import Calendar
 from tkinter import ttk
-import Contacts
-import Data_manager
+import contacts
+import data_manager
 from datetime import datetime
 
+
 class AddContact:
-    def __init__(self, root):
+    def __init__(self, root, tv):
         self.root = root
+        self.tv = tv
         self.root.title("New contact")
 
-        self.contacts = Data_manager.load_contacts_from_csv()  # Load contacts from CSV
+        self.contacts = data_manager.load_contacts_from_csv()  # Load contacts from CSV
 
         self.name_entry = Entry(root)
         self.email_entry = Entry(root)
@@ -61,12 +63,10 @@ class AddContact:
         messagebox.showinfo("Confirm your entry", contact_info)
 
         # Assuming the Contact class is defined in "Contacts.py"
-        contact = Contacts.Contact(name, datetime.strptime(birthday, "%m-%d-%Y"), email, datetime.strptime(last_met, "%m-%d-%Y"), note, category)
+        contact = contacts.Contact(name, datetime.strptime(birthday, "%m-%d-%Y"), email, datetime.strptime(last_met, "%m-%d-%Y"), note, category)
         self.contacts.append(contact)
-        Data_manager.save_contacts_to_csv(self.contacts)
+        data_manager.save_contacts_to_csv(self.contacts)
         self.update_treeview(contact)
-
-
 
     def open_calendar_birthday(self):
         top = Toplevel(self)
@@ -109,5 +109,5 @@ class AddContact:
 
 if __name__ == "__main__":
     root = Tk()
-    app = AddContact(root)
+    app = AddContact(root, tv)
     root.mainloop()

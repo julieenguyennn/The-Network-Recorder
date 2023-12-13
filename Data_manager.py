@@ -1,6 +1,6 @@
 import csv
 from datetime import datetime
-from Contacts import Contact
+from contacts import *
 
 
 def save_contacts_to_csv(contact_list, filename='contacts.csv'):

@@ -1,11 +1,14 @@
 import csv
-from tkinter import filedialog
+from tkinter import filedialog, messagebox
+import Data_manager
+from Contacts import *
 
 class importContact:
     def __init__(self):
-        self.headers = ['Name', 'Email', 'Birthday', 'Last Met', 'Note', 'Category']  
+        self.headers = ['Name', 'Birthday', 'Email', 'Last Met', 'Note', 'Category']  
         self.contacts = []
 
+    # Create a function to check the CSV file before import
     def check_csv_headers(self, file_name):
         try:
             with open(file_name, 'r') as file:
@@ -15,7 +18,8 @@ class importContact:
         except FileNotFoundError:
             return False
 
-    def import_contacts(self):
+    # Create a function to import CSV file into the program
+    def import_contacts(self, update_callback=None):
         file_name = filedialog.askopenfilename(filetypes=[("CSV Files", "*.csv")])
         if file_name:
             headers_match = self.check_csv_headers(file_name)
@@ -23,10 +27,14 @@ class importContact:
                 try:
                     with open(file_name, 'r') as file:
                         reader = csv.DictReader(file)
-                        imported_contacts = list(reader)
-                        self.contacts.extend(imported_contacts)
-                        print("Contacts imported successfully.")
+                        for row in reader:
+                            contact = Contact.from_dict(row)  # Create a Contact object from each row
+                            self.contacts.append(contact)
+                        messagebox.showinfo(message="Contacts imported successfully.")
+                        Data_manager.save_contacts_to_csv(self.contacts)
+                        if update_callback:
+                            update_callback()  # Call the provided callback to update the Treeview
                 except FileNotFoundError:
-                    print("File not found. Please provide a valid file name.")
+                    messagebox.showerror(message="File not found. Please provide a valid file name.")
             else:
-                print("Headers in the CSV file do not match the expected headers.")
+                messagebox.showwarning(message="Headers in the CSV file do not match the expected headers.")

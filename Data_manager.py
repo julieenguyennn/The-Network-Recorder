@@ -6,17 +6,17 @@ from Contacts import Contact
 def save_contacts_to_csv(contact_list, filename='contacts.csv'):
     with open(filename, mode='w', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow(["Name", "Birthday", "Email", "Note", "Last Contact"])
+        writer.writerow(["Name", "Birthday", "Email", "Last Met", "Note", "Category"])
         for contact in contact_list:
+            last_met_formatted = contact.last_met.strftime("%m-%d-%Y") if contact.last_met is not None else ""
             writer.writerow([
                 contact.name,
-                contact.birthday.strftime("%m-%d-%Y"),
+                contact.birthday.strftime("%m-%d-%Y") if contact.birthday is not None else "",
                 contact.email,
-                contact.last_met.strftime("%m-%d-%Y"),
+                last_met_formatted,  # Handling last_met when it's None
                 contact.note,
                 contact.category
             ])
-
 
 def load_contacts_from_csv(filename='contacts.csv'):
     contacts = []

@@ -68,7 +68,6 @@ class addContact(Toplevel):
         contact_info = f"Name: {name}\nEmail: {email}\nLast Met: {last_met}\nBirthday: {birthday}\nCategory: {category}\nNote: {note}"
         messagebox.showinfo("Confirm your entry", contact_info)
 
-        # Assuming the Contact class is defined in "Contacts.py"
         contact = Contacts.Contact(name, datetime.strptime(birthday, "%m-%d-%Y"), email, datetime.strptime(last_met, "%m-%d-%Y"), note, category)
         self.contacts.append(contact)
         Data_manager.save_contacts_to_csv(self.contacts)

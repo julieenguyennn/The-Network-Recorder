@@ -1,4 +1,3 @@
-
 # Set up and import packages
 from tkinter import *
 from tkinter import messagebox
@@ -7,7 +6,6 @@ from tkinter import ttk
 import Contacts
 import Data_manager
 from datetime import datetime
-
 
 class AddContact:
     def __init__(self, root, tv):

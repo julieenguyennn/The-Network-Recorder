@@ -13,6 +13,7 @@ class Home:
         self.item = StringVar()
         self.load_contacts()
         self.contact_list = data_manager.load_contacts_from_csv()
+        self.import_manager = importContact()
 
         self.menu = LabelFrame(self.root, text="Menu Bar")
         self.menu.pack(padx=20, pady=20)
@@ -23,7 +24,7 @@ class Home:
 
         # Load the search icon image and resize it
         search_icon = PhotoImage(file="GUI graphics/search_icon.png")
-        resized_search_icon = search_icon.subsample(30, 30)  # Adjust the subsample values as needed
+        resized_search_icon = search_icon.subsample(30, 30) 
 
         # Create a button with the search icon
         search_button = Button(left_menu, text="Search", image=resized_search_icon, compound="left", command=self.search_by_name)
@@ -36,14 +37,14 @@ class Home:
         right_menu = Frame(self.menu)
         right_menu.pack(side=RIGHT)
 
-        # Add contact icon
+        # Create a button for adding new contact
         addcontact_icon = PhotoImage(file="GUI graphics/addcontact_icon.png")
         resized_addcontact_icon = addcontact_icon.subsample(10, 10)
         self.add_contact_button = Button(right_menu, text=" New Contact", image=resized_addcontact_icon, compound="left")
         self.add_contact_button.grid(row=0, column=1, padx=5, pady=5)
         self.add_contact_button.bind("<Button>", lambda e: self.open_add_contact_window())
 
-        # Add reminder icon
+        # Create a button for viewing reminder
         reminder_no_icon = PhotoImage(file="GUI graphics/reminder_no_icon.png")
         resized_reminder_no_icon = reminder_no_icon.subsample(1, 1)  # Adjust the subsample values as needed
         self.reminder_button = Button(right_menu, image=resized_reminder_no_icon, compound="left")
@@ -114,8 +115,7 @@ class Home:
 
     # Create a function to import contact from CSV file
     def import_contacts_from_file(self):
-        import_manager = importContact()
-        import_manager.import_contacts()
+        self.import_manager.import_contacts(self.update_treeview)
 
     # Create a function to update the display table
     def update_treeview(self):

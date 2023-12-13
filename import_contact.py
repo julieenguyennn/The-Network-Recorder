@@ -28,13 +28,13 @@ class importContact:
                     with open(file_name, 'r') as file:
                         reader = csv.DictReader(file)
                         for row in reader:
-                            contact = contact.from_dict(row)  # Create a Contact object from each row
-                            self.contacts.append(contact)
+                            contact = Contact(row['Name'], row['Birthday'], row['Email'], row['Last Met'], row['Note'], row['Category'])
+                        self.contacts.append(contact)
                         messagebox.showinfo(message="Contacts imported successfully.")
                         data_manager.save_contacts_to_csv(self.contacts)
                         if update_callback:
                             update_callback()  # Call the provided callback to update the Treeview
-                except FileNotFoundError:
+                except FileNotFoundError as e:
                     messagebox.showerror(message="File not found. Please provide a valid file name.")
             else:
                 messagebox.showwarning(message="Headers in the CSV file do not match the expected headers.")

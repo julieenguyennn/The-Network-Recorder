@@ -21,7 +21,6 @@ class AddContact:
 
         self.setup_ui()
 
-    # Create GUI
     def setup_ui(self):
         frame = Frame(self.root)
         frame.pack(fill=X, padx=10, pady=5)
@@ -31,50 +30,54 @@ class AddContact:
         name_frame.pack(fill=X, padx=5, pady=5)
         Label(name_frame, text="Name:").pack(side=LEFT)
         self.name_entry = Entry(name_frame)
-        self.name_entry.pack(side=RIGHT, padx=5, pady=5)
+        self.name_entry.pack(side=LEFT, padx=(18, 5), pady=5)
 
         # Create frame for email input
         email_frame = Frame(frame)
         email_frame.pack(fill=X, padx=5, pady=5)
         Label(email_frame, text="Email:").pack(side=LEFT)
         self.email_entry = Entry(email_frame)
-        self.email_entry.pack(side=RIGHT, padx=5, pady=5)
+        self.email_entry.pack(side=LEFT, padx=(20, 5), pady=5)
 
         # Create frame for birthday input
         birthday_frame = Frame(frame)
         birthday_frame.pack(fill=X, padx=5, pady=5)
+
         Label(birthday_frame, text="Birthday:").pack(side=LEFT)
         self.birthday_entry = Entry(birthday_frame)
-        self.birthday_entry.pack(side=RIGHT, padx=5, pady=5)
+        self.birthday_entry.pack(side=LEFT, padx=(3, 5), pady=5)
+
         self.calendar_button_birthday = Button(birthday_frame, command=self.open_calendar_birthday, image=self.calendar_icon, compound="left")
-        self.calendar_button_birthday.pack(side=RIGHT, padx=5, pady=5)
+        self.calendar_button_birthday.pack(side=LEFT, padx=(0, 5), pady=5)
 
         # Create frame for category input
         category_frame = Frame(frame)
         category_frame.pack(fill=X, padx=5, pady=5)
         Label(category_frame, text="Category:").pack(side=LEFT)
         categories = ["Work", "Personal", "Family", "Friends"]
-        self.category_combobox = ttk.Combobox(category_frame, values=categories)
-        self.category_combobox.pack(side=RIGHT, padx=5, pady=5)
+        self.category_combobox = ttk.Combobox(category_frame, values=categories,width=18)
+        self.category_combobox.pack(side=LEFT, padx=(2, 5), pady=5)
 
         # Create frame for last met date input
         last_met_frame = Frame(frame)
         last_met_frame.pack(fill=X, padx=5, pady=5)
         Label(last_met_frame, text="Last met:").pack(side=LEFT)
         self.last_met_entry = Entry(last_met_frame)
-        self.last_met_entry.pack(side=RIGHT, padx=5, pady=5)
+        self.last_met_entry.pack(side=LEFT, padx=(3, 5), pady=5)
+
         self.calendar_button_last_met = Button(last_met_frame, command=self.open_calendar_last_met, image=self.calendar_icon)
-        self.calendar_button_last_met.pack(side=RIGHT, padx=5, pady=5)
+        self.calendar_button_last_met.pack(side=LEFT, padx=(0, 5), pady=5)
 
         # Create frame for note input
         note_frame = Frame(frame)
         note_frame.pack(fill=X, padx=5, pady=5)
         Label(note_frame, text="Note:").pack(side=LEFT)
-        self.note_entry = Text(note_frame, height=5, width=30)
-        self.note_entry.pack(side=RIGHT, fill='both', padx=5, pady=5, expand=True)
+        self.note_entry = Text(note_frame, height=5, width=27)
+        self.note_entry.pack(side=LEFT, fill='both', padx=(26, 3), pady=5)
 
         # Add Contact Button
-        self.add_button.pack(fill=X, padx=5, pady=10) 
+        self.add_button.pack(fill=X, padx=5, pady=10)
+
 
     def add_contact(self):
         name = self.name_entry.get()
@@ -84,7 +87,7 @@ class AddContact:
         last_met = self.last_met_entry.get()
         note = self.note_entry.get("1.0", "end-1c")
 
-        contact_info = f"Name: {name}\nEmail: {email}\nLast Met: {last_met}\nBirthday: {birthday}\nCategory: {category}\nNote: {note}"
+        contact_info = f"Name: {name}\nEmail: {email}\nBirthday: {birthday}\nCategory: {category}\nLast Met: {last_met}\nNote: {note}"
         messagebox.showinfo("Confirm your entry", contact_info)
 
         contact = Contacts.Contact(name, datetime.strptime(birthday, "%m-%d-%Y"), email, datetime.strptime(last_met, "%m-%d-%Y"), note, category)

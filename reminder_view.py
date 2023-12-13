@@ -14,11 +14,11 @@ def categorize_contacts(contact_list):
     for contact in contact_list:
         months_difference = contact.last_contact_from_now()
 
-        if months_difference > 12:
+        if months_difference >= 12:
             one_year_contacts.append(contact)
-        elif months_difference > 6:
+        elif months_difference >= 6:
             six_month_contacts.append(contact)
-        elif months_difference > 3:
+        elif months_difference >= 3:
             three_month_contacts.append(contact)
 
     return one_year_contacts, six_month_contacts, three_month_contacts

@@ -7,7 +7,7 @@
 # Assignment: Final Project
 # Date Create: December 1, 2023
 # Last Modified: December 13, 2023
-# Description: [add description of the file here]
+# Description: Import contact feature
 
 # Set up and import packages
 import csv

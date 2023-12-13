@@ -8,17 +8,20 @@ import Contacts
 import Data_manager
 from datetime import datetime
 
-
+# Set up class for 
 class AddContact:
     def __init__(self, root, tv):
         self.root = root
         self.tv = tv
         self.root.title("New contact")
 
-        self.contacts = Data_manager.load_contacts_from_csv()  # Load contacts from CSV
+        # Load contacts from CSV
+        self.contacts = Data_manager.load_contacts_from_csv()  
 
+        # Load calendar icons
         self.calendar_icon = PhotoImage(file="GUI graphics/calendar_icons.png")
 
+        
         self.add_button = Button(root, text="Add Contact", command=self.add_contact)
 
         self.setup_ui()

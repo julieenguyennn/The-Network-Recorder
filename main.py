@@ -45,14 +45,14 @@ class Home:
         right_menu.pack(side=RIGHT)
 
         # Create a button for adding new contact
-        addcontact_icon = PhotoImage(file="GUI graphics/addcontact_icon.png")
+        addcontact_icon = PhotoImage(file="./GUI graphics/addcontact_icon.png")
         resized_addcontact_icon = addcontact_icon.subsample(10, 10)
         self.add_contact_button = Button(right_menu, text=" New Contact", image=resized_addcontact_icon, compound="left")
         self.add_contact_button.grid(row=0, column=1, padx=5, pady=5)
         self.add_contact_button.bind("<Button>", lambda e: self.open_add_contact_window())
 
         # Create a button for viewing reminder
-        reminder_no_icon = PhotoImage(file="GUI graphics/reminder_no_icon.png")
+        reminder_no_icon = PhotoImage(file="./GUI graphics/reminder_no_icon.png")
         resized_reminder_no_icon = reminder_no_icon.subsample(1, 1)  # Adjust the subsample values as needed
         self.reminder_button = Button(right_menu, image=resized_reminder_no_icon, compound="left", command=open_reminder)
         self.reminder_button.grid(row=0, column=3, padx=5, pady=5)
@@ -60,14 +60,14 @@ class Home:
 
         def update_reminder_icon(new_reminder):
             if new_reminder:
-                reminder_yes_icon_path = "GUI graphics/reminder_yes_icon.png"
+                reminder_yes_icon_path = "./GUI graphics/reminder_yes_icon.png"
                 reminder_yes_icon = PhotoImage(file=reminder_yes_icon_path)
                 resized_reminder_yes_icon = reminder_yes_icon.subsample(1, 1)  # Adjust subsample values as needed
                 self.reminder_button.config(image=resized_reminder_yes_icon)
                 self.reminder_button.image = resized_reminder_yes_icon  # Keep reference to avoid garbage collection
         
         # Create a button to upload CSV file
-        csv_icon = PhotoImage(file="GUI graphics/csv_icon.png")
+        csv_icon = PhotoImage(file="./GUI graphics/csv_icon.png")
         resized_csv_icon = csv_icon.subsample(28, 28)
         self.import_csv_button = Button(right_menu, text=" Upload CSV File", image=resized_csv_icon, compound="left", command=self.import_contacts_from_file)
         self.import_csv_button.grid(row=0, column=2, padx=5, pady=5)

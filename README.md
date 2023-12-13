@@ -31,7 +31,7 @@ A home window will appear on screen when the program is executed. The window inc
 An additional window will be opened on top. Users will see placeholders for information such as Name, Email, Birthday, Category, Note, Last Met and be able to input the information. After adding the contact information, user will be prompted with a confirmation box. The box should disappear and newly-added information will be shown on the homepage immediately.
 
 ### When "Reminder" is clicked
-A **pop up window [fix this if we cannot do it]** will be opened on top. Users can see a list of contacts that they last talked to 1 year, 6 months, or 3 months ago.
+An additional window will be opened on top. Users can see a list of contacts that they last talked to 1 year, 6 months, or 3 months ago.
 
 ### When "Import CSV file" is clicked
 A file dialog from the computer system will be opened on top, which allows user to import a CSV file into the program.

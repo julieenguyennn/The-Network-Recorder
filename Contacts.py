@@ -1,16 +1,24 @@
+# Faculty of Information
+# University of Toronto
+# BI program
+# Course: INF452
+# Instructor: Dr. Maher Elshakankiri
+# Name: Rae Zhang, Julie Nguyen, Linrong Li
+# Assignment: Final Project
+# Date Create: December 1, 2023
+# Last Modified: December 13, 2023
+# Description: Store contact information
 
+# Set up and import packages
 from tkinter import *
 from tkinter import filedialog
 import csv
 from datetime import *
 
-
+# Set up class
 class Contact:
-    def __init__(self, name: str, birthday=None, email=None, last_met=None,
-                 note=None, category=None):
-        if name is None:
-            raise ValueError("Name is required")
-        
+    # Initiation
+    def __init__(self, name, birthday, email, last_met, note, category):
         self.name = name
         self.birthday = birthday
         self.email = email
@@ -18,6 +26,7 @@ class Contact:
         self.note = note
         self.category = category
 
+    # Create a function to calculate month difference between the current date and last contact date
     def last_contact_from_now(self):
         current_date = datetime.now().date()
         difference = abs(current_date - self.last_met.date())
@@ -29,31 +38,3 @@ class Contact:
         # checks if a lowercase version of the provided keyword is a substring of the lowercase version of the
         # object's name for the search function
         return keyword.lower() in self.name.lower()
-    
-    @classmethod
-    def from_dict(cls, data_dict):
-        date_formats = ["%m-%d-%Y", "%m/%d/%Y"]  # List of possible date formats
-        birthday = None
-        last_met = None
-
-        for format in date_formats:
-            try:
-                birthday_str = data_dict.get('Birthday')
-                last_met_str = data_dict.get('Last Met')
-
-                # Check if the date strings are not empty before conversion
-                if birthday_str and last_met_str:
-                    birthday = datetime.strptime(birthday_str, format)
-                    last_met = datetime.strptime(last_met_str, format)
-                    break  # Stop trying formats once a successful parse occurs
-            except (ValueError, TypeError):
-                continue  # Continue to the next format if the current one fails
-
-        return cls(
-            name=data_dict['Name'],
-            birthday=birthday,
-            email=data_dict.get('Email'),
-            last_met=last_met,
-            note=data_dict.get('Note'),
-            category=data_dict.get('Category')
-        )

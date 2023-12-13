@@ -10,7 +10,7 @@ class home:
         self.root = root
         self.root.title("Home")
 
-        self.contact_manager = contactManager()  # Instantiate contact manager
+        self.contact_manager = ContactManager()  # Instantiate contact manager
 
         # Load the search icon image
         search_icon = Image.open("search_icon.png")
@@ -33,7 +33,7 @@ class home:
 
     def open_add_contact(self):
         add_contact_window = tk.Toplevel(self.root)
-        add_contact_app = addContact(add_contact_window)
+        add_contact_app = AddContact(add_contact_window)
         add_contact_app.displayWindow()
 
     def import_contacts(self):

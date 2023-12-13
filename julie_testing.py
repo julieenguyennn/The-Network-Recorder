@@ -23,9 +23,11 @@ def import_contacts_from_file():
 
 
 def update_treeview():
+    contact_list = Data_manager.load_contacts_from_csv()  # Retrieve contacts from the file
     tv.delete(*tv.get_children())
     for contact in contact_list:
         tv.insert('', 'end', values=(contact.name, contact.birthday, contact.email, contact.last_met, contact.note, contact.category))
+
 
 
 def search_by_name():
@@ -36,11 +38,11 @@ def search_by_name():
         if contact.contains_partial(keyword):
             results.append(contact)
 
-        self.tv.delete(*self.tv.get_children())
+        tv.delete(*tv.get_children())
 
         # Insert search results into the Treeview
         for result in results:
-            self.tv.insert('', 'end', values=(result.name, result.birthday, result.email, result.last_met, result.note, result.category))
+            tv.insert('', 'end', values=(result.name, result.birthday, result.email, result.last_met, result.note, result.category))
 
 root = Tk()
 # contact_manager = contactManager()
@@ -62,13 +64,13 @@ search_button.pack(side=LEFT, padx=20)
 
 add_contact_button = Button(menu, text="Add Contact")
 add_contact_button.pack(side=LEFT, padx=20)
-add_contact_button.bind("<Button>", lambda e: addContact(root, tv))
+add_contact_button.bind("<Button>", lambda e: AddContact(root, tv))
 
 reminder_button = Button(menu, text="Reminder")
 reminder_button.pack(side=LEFT, padx=20)
 reminder_button.bind("<Button>", lambda e: Reminder(root))
 
-import_csv_button = Button(menu, text="Import CSV", command=import_contacts_from_file)
+import_csv_button = Button(menu, text="Import CSV file", command=import_contacts_from_file)
 import_csv_button.pack(side=LEFT, padx=20)
 
 # Table space

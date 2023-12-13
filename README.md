@@ -6,20 +6,20 @@ The Network Recorder is a program that allows user to note down the information 
 ## File structure
 There are four files in this folder:
 
-* `home_view.py` is the main file for executing the program
-* `contacts.py` stores the contact object and its atrributes
+* `main.py` is the main file for executing the program
+* `Contacts.py` stores the contact object and its atrributes
 * `add_contact_view.py` stores the code for the "Add Contact" window when it is executed 
 * `reminder_view.py` stores the code for the "Reminder" window when it is executed
 * `import_contact.py` stores the code for the "Import CSV file" window when it is executed
-* `data_manager.py` saves the contact object when user adds a new contact and loads the information from `contacts.csv` when user reopens the program
+* `Data_manager.py` saves the contact object when user adds a new contact and loads the information from `contacts.csv` when user reopens the program
 * `contacts.csv` is the mediate file used to save added information
 
 ## Execution instructions
-In order to run this program smoothly, please be advised that Python and other packages are installed. You can download Python from the official website if it's not already installed: https://www.python.org/downloads/. Other packages including `tkinter`, `csv` and `datetime` can be installed by entering `pip install [package name]` in the terminal.
+In order to run this program smoothly, please be advised that Python and other packages are installed. You can download Python from the official website if it's not already installed: https://www.python.org/downloads/. Other packages including `tkinter`, `csv`, `datetime`, and `SpeechRecognition` can be installed by entering `pip install [package name]` in the terminal.
 
 In order to run this program:
 1. Download all the code files and save them in the same folder
-2. Open `home_view.py` and run it
+2. Open `main.py` and run it
 2. The program will open an external window
 3. Execute on the window
 
@@ -34,13 +34,10 @@ An additional window will be opened on top. Users will see placeholders for info
 A **pop up window [fix this if we cannot do it]** will be opened on top. Users can see a list of contacts that they last talked to 1 year, 6 months, or 3 months ago.
 
 ### When "Import CSV file" is clicked
-A window from the computer system will be opened on top, which allows user to import a CSV file into the program.
+A file dialog from the computer system will be opened on top, which allows user to import a CSV file into the program.
 
 ### Close and reopen the program
+When user closes and reopens the program, the previously-added contact is saved and showed on the home screen.
 
-
-
-## Sources
-The logo used in the program is obtained from [please input link here]
 ## License
 This Network Recorder is released under the MIT License. Feel free to use, modify, and distribute it for personal or educational purposes.

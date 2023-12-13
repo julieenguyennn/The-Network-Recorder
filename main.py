@@ -125,10 +125,10 @@ import_csv_button = Button(right_menu, text=" Upload CSV File", image=resized_cs
 import_csv_button.grid(row=0, column=2, padx=5, pady=5)
 
 # Contact List
-table_space = LabelFrame(root, text="Contact list")
+table_space = LabelFrame(root, text="Contact list", height = 800)
 table_space.pack(padx=20, pady=20)
 
-tv = ttk.Treeview(table_space, columns=(1, 2, 3, 4, 5, 6, 7), show="headings", height=10)
+tv = ttk.Treeview(table_space, columns=(1, 2, 3, 4, 5, 6, 7), show="headings", height=800)
 tv.pack(padx=20, pady=20)
 
 # Table Headers

@@ -39,9 +39,9 @@ class Home:
         # Add contact icon
         addcontact_icon = PhotoImage(file="GUI graphics/addcontact_icon.png")
         resized_addcontact_icon = addcontact_icon.subsample(10, 10)
-        self.add_contact_button = Button(right_menu, text=" New Contact", image=resized_addcontact_icon, compound="left") #command=self.search_by_name)
+        self.add_contact_button = Button(right_menu, text=" New Contact", image=resized_addcontact_icon, compound="left")
         self.add_contact_button.grid(row=0, column=1, padx=5, pady=5)
-        self.add_contact_button.bind("<Button>", lambda e: AddContact(self.root, self.tv))
+        self.add_contact_button.bind("<Button>", lambda e: self.open_add_contact_window())
 
         # Add reminder icon
         reminder_no_icon = PhotoImage(file="GUI graphics/reminder_no_icon.png")
@@ -58,10 +58,10 @@ class Home:
                 self.reminder_button.config(image=resized_reminder_yes_icon)
                 self.reminder_button.image = resized_reminder_yes_icon  # Keep reference to avoid garbage collection
         
-        # Upload csv icon
+        # Create a button to upload CSV file
         csv_icon = PhotoImage(file="GUI graphics/csv_icon.png")
         resized_csv_icon = csv_icon.subsample(28, 28)
-        self.import_csv_button = Button(right_menu, text=" Upload CSV List", image=resized_csv_icon,  compound="left", command=self.import_contacts_from_file)
+        self.import_csv_button = Button(right_menu, text=" Upload CSV File", image=resized_csv_icon, compound="left", command=self.import_contacts_from_file)
         self.import_csv_button.grid(row=0, column=2, padx=5, pady=5)
 
         # Table space
@@ -105,6 +105,12 @@ class Home:
         if not os.path.exists('contacts.csv'):
             open('contacts.csv', 'a').close()
         data_manager.load_contacts_from_csv()
+
+    # Create a function to open new window when Add Contact is clicked
+    def open_add_contact_window(self):
+        add_contact_window = Toplevel(self.root)
+        add_contact_window.title("Add Contact")
+        AddContact(add_contact_window, self.tv)
 
     # Create a function to import contact from CSV file
     def import_contacts_from_file(self):

@@ -15,41 +15,66 @@ class AddContact:
 
         self.contacts = data_manager.load_contacts_from_csv()  # Load contacts from CSV
 
-        self.name_entry = Entry(root)
-        self.email_entry = Entry(root)
-        self.birthday_entry = Entry(root)
-        self.last_met_entry = Entry(root)
-        self.note_entry = Text(root, height=5, width=30)
-
-        categories = ["Work", "Personal", "Family", "Friends"]
-        self.category_combobox = ttk.Combobox(root, values=categories)
-
         self.calendar_icon = PhotoImage(file="GUI graphics/calendar_icons.png")
 
-        self.calendar_button_birthday = Button(root, command=self.open_calendar_birthday, image=self.calendar_icon, compound="left")
-        self.calendar_button_last_met = Button(root, command=self.open_calendar_last_met, image=self.calendar_icon, compound="left")
         self.add_button = Button(root, text="Add Contact", command=self.add_contact)
 
         self.setup_ui()
 
+    # Create GUI
     def setup_ui(self):
-        Label(self.root, text="Name:").grid(row=0, column=0, padx=5, pady=5)
-        Label(self.root, text="Email:").grid(row=1, column=0, padx=5, pady=5)
-        Label(self.root, text="Birthday:").grid(row=2, column=0, padx=5, pady=5)
-        Label(self.root, text="Category:").grid(row=3, column=0, padx=5, pady=5)
-        Label(self.root, text="Last met:").grid(row=4, column=0, padx=5, pady=5)
-        Label(self.root, text="Note:").grid(row=5, column=0, padx=5, pady=5)
+        frame = Frame(self.root)
+        frame.pack(fill=X, padx=10, pady=5)
 
-        self.name_entry.grid(row=0, column=1, padx=5, pady=5)
-        self.email_entry.grid(row=1, column=1, padx=5, pady=5)
-        self.birthday_entry.grid(row=2, column=1, padx=5, pady=5)
-        self.category_combobox.grid(row=3, column=1, padx=5, pady=5)
-        self.last_met_entry.grid(row=4, column=1, padx=5, pady=5)
-        self.note_entry.grid(row=5, column=1, padx=5, pady=5)
+        # Create frame for name input
+        name_frame = Frame(frame)
+        name_frame.pack(fill=X, padx=5, pady=5)
+        Label(name_frame, text="Name:").pack(side=LEFT)
+        self.name_entry = Entry(name_frame)
+        self.name_entry.pack(side=RIGHT, padx=5, pady=5)
 
-        self.calendar_button_birthday.grid(row=2, column=2, columnspan=5, padx=(0, 2), pady=5, sticky="w")
-        self.calendar_button_last_met.grid(row=4, column=2, columnspan=5, padx=(0, 2), pady=5, sticky="w")
-        self.add_button.grid(row=6, column=0, columnspan=2, padx=5, pady=10)
+        # Create frame for email input
+        email_frame = Frame(frame)
+        email_frame.pack(fill=X, padx=5, pady=5)
+        Label(email_frame, text="Email:").pack(side=LEFT)
+        self.email_entry = Entry(email_frame)
+        self.email_entry.pack(side=RIGHT, padx=5, pady=5)
+
+        # Create frame for birthday input
+        birthday_frame = Frame(frame)
+        birthday_frame.pack(fill=X, padx=5, pady=5)
+        Label(birthday_frame, text="Birthday:").pack(side=LEFT)
+        self.birthday_entry = Entry(birthday_frame)
+        self.birthday_entry.pack(side=RIGHT, padx=5, pady=5)
+        self.calendar_button_birthday = Button(birthday_frame, command=self.open_calendar_birthday, image=self.calendar_icon, compound="left")
+        self.calendar_button_birthday.pack(side=RIGHT, padx=5, pady=5)
+
+        # Create frame for category input
+        category_frame = Frame(frame)
+        category_frame.pack(fill=X, padx=5, pady=5)
+        Label(category_frame, text="Category:").pack(side=LEFT)
+        categories = ["Work", "Personal", "Family", "Friends"]
+        self.category_combobox = ttk.Combobox(category_frame, values=categories)
+        self.category_combobox.pack(side=RIGHT, padx=5, pady=5)
+
+        # Create frame for last met date input
+        last_met_frame = Frame(frame)
+        last_met_frame.pack(fill=X, padx=5, pady=5)
+        Label(last_met_frame, text="Last met:").pack(side=LEFT)
+        self.last_met_entry = Entry(last_met_frame)
+        self.last_met_entry.pack(side=RIGHT, padx=5, pady=5)
+        self.calendar_button_last_met = Button(last_met_frame, command=self.open_calendar_last_met, image=self.calendar_icon)
+        self.calendar_button_last_met.pack(side=RIGHT, padx=5, pady=5)
+
+        # Create frame for note input
+        note_frame = Frame(frame)
+        note_frame.pack(fill=X, padx=5, pady=5)
+        Label(note_frame, text="Note:").pack(side=LEFT)
+        self.note_entry = Text(note_frame, height=5, width=30)
+        self.note_entry.pack(side=RIGHT, fill='both', padx=5, pady=5, expand=True)
+
+        # Add Contact Button
+        self.add_button.pack(fill=X, padx=5, pady=10) 
 
     def add_contact(self):
         name = self.name_entry.get()
@@ -109,5 +134,6 @@ class AddContact:
 
 if __name__ == "__main__":
     root = Tk()
+    tv = ttk.Treeview(root)
     app = AddContact(root, tv)
     root.mainloop()
